@@ -8,5 +8,5 @@ Research Objectives
 ---------------------
 1. ML Componentization.
 2. Specify detail XML format for ML Components.
-3. Specify the algorithm which translates from XML to tensorflow code.
+3. Specify the algorithm which translates from XML to tensorflow object code.
 4. Prototyping objectives above.
