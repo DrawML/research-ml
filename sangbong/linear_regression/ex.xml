@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<model>
+	<category>linear regression</category>
+
+	<hypothesis>
+		<weight>
+			<random_uniform> <!-- TODO: provide type? -->
+				<minval></minval>
+				<maxval></maxval>
+			</random_uniform>
+		</weight>
+		<bias>
+			<constant></constant>
+		</bias>
+	</hypothesis>
+
+	<optimizer>
+		<gradient_descent>
+			<leanring_rate></leanring_rate>
+		</gradient_descent>
+	</optimizer>
+
+	<step></step>
+</model>
+
