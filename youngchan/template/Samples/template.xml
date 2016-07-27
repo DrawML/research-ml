@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<model>
+    <type>linear_regression</type>  <!-- valid type -->
+    <input>
+        <x_val>
+            <row>95</row>
+            <col>1</col>
+        </x_val>
+        <y_val>
+            <row>95</row>
+            <col>1</col>
+        </y_val>
+    </input>
+    <initializer>
+        <weight>
+            <type>random_uniform</type> <!-- valid type -->
+            <low>-1.0</low>     <!-- float -->
+            <high>1.0</high>    <!-- float -->
+        </weight>
+        <bias>
+            <type>random_uniform</type> <!-- valid type -->
+            <low>0</low>     <!-- float -->
+            <high>0</high>    <!-- float -->
+        </bias>
+    </initializer>
+    <optimizer>
+        <type>GradientDescentOptimizer</type>           <!-- valid type -->
+        <learning_rate>0.01</learning_rate>     <!-- float -->
+    </optimizer>
+    <training_epoch>1024</training_epoch>     <!-- unsigned -->
+</model>
