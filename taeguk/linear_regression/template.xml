@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <model type="linear_regression">
-    <initializer type = "random">
+    <initializer type="random">
         <low>-1.0</low>     <!-- float -->
         <high>1.0</high>    <!-- float -->
     </initializer>
