@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<model type="linear_regression">
-    <initializer type="random">
+<model>
+    <type>linear_regression</type>  <!-- valid type -->
+    <initializer>
+        <type>random</type> <!-- valid type -->
         <low>-1.0</low>     <!-- float -->
         <high>1.0</high>    <!-- float -->
     </initializer>
-    <optimizer type="gradient_descent">
+    <optimizer>
+        <type>gradient_descent</type>           <!-- valid type -->
         <learning_rate>0.01</learning_rate>     <!-- float -->
     </optimizer>
     <training_epochs>1024</training_epochs>     <!-- unsigned -->
