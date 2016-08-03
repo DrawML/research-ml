@@ -9,14 +9,13 @@ and maybe save model
 import tensorflow as tf
 import numpy as np
 
-training_epoch = 1024
-x_data = [1,2,3]
-y_data = [1,2,3]
+training_epoch = {{training_epoch}}
+x_data = {{x_data}}
+y_data = {{y_data}}
 
 
 def load_input():
 	return x_data, y_data, x_data, y_data, x_data, y_data
-
 
 
 def load_train_data():
@@ -33,20 +32,20 @@ def cost_function():
 
 
 def make_optimizer():
-    optimizer_module = tf.train
-    optimizer_name   = 'GradientDescentOptimizer'
-    optimizer_params = {'learning_rate': 0.01}
+    optimizer_module = {{optimizer_module}}
+    optimizer_name   = {{optimizer_name}}
+    optimizer_params = {{optimizer_params}}
     return getattr(optimizer_module, optimizer_name)(**optimizer_params)
 
 
 def init_weights():
-    weight_init_module = tf.random_uniform
-    weight_params      = {'maxval': 1.0, 'shape': [1], 'minval': -1.0}
-    bias_init_module = tf.random_uniform
-    bias_params      = {'maxval': 0.0, 'shape': [1], 'minval': 0.0}
+    weight_init_module = {{weight_init_module}}
+    weight_params      = {{weight_params}}
+    bias_init_module = {{bias_init_module}}
+    bias_params      = {{bias_params}}
 
     weight = tf.Variable(weight_init_module(**weight_params))
-    bias = tf.Variable(bias_init_module(**bias_params))
+    bias   = tf.Variable(bias_init_module(**bias_params))
     return weight, bias
 
 

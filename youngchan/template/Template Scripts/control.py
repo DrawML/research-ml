@@ -2,7 +2,6 @@
 import sys
 import os.path
 import xml.etree.ElementTree as et
-import numpy as np
 
 NO_FILE_XML  = 101
 NO_FILE_DATA = 102
