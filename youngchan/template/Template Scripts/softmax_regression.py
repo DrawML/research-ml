@@ -24,8 +24,8 @@ def make_code(root: et.Element):
 	code_generator.parse_xml(root, root, xml_info)
 
 	template_variables = dict()
-	code_generator.process_data(xml_info, template_variables)
 	bind_variables(xml_info, template_variables)
+	code_generator.process_data(xml_info, template_variables)
 	code_generator.make_optimizer(xml_info, template_variables)
 	code_generator.make_initializer(xml_info, template_variables)
 
