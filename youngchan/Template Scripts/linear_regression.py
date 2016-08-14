@@ -15,7 +15,7 @@ def make_code(root: et.Element):
 	j2_env = Environment(loader=FileSystemLoader(PARENT_DIR),
 	                     trim_blocks=True)
 	try:
-		template = j2_env.get_template("./Template Files/template_" + root.find("type").text + ".py")
+		template = j2_env.get_template("./Template Files/template_" + root.find("model").find("type").text + ".py")
 	except:
 		print("template error")
 		sys.exit(2)

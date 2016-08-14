@@ -143,7 +143,7 @@ class code_generator:
 
 	@staticmethod
 	def parse_xml(parent: et.Element, node: et.Element,
-	              template_variable: dict):
+	              xml_info: dict):
 		"""
 		Fill template variavle dictionary recursively
 		A format of key of text field is (parenttag_currenttag)
@@ -165,7 +165,7 @@ class code_generator:
 
 		:param parent:              parent node
 		:param node:                current node
-		:param template_variable:   template variable dictionary
+		:param xml_info:            xml information dictionary
 		:return:                    void
 		"""
 		key = parent.tag + "_" + node.tag

@@ -9,14 +9,20 @@ and maybe save model
 import tensorflow as tf
 import numpy as np
 
-training_epoch = 1024
-x_data = [1,2,3]
-y_data = [1,2,3]
+training_epoch = {{training_epoch}}
 
 
 def load_input():
-	return x_data, y_data, x_data, y_data, x_data, y_data
+	raw_data = np.loadtxt('data.txt', unpack=True, dtype='float32')
+	raw_data = raw_data.T
+	row = len(raw_data)
+	col = len(raw_data[0])
 
+	x_data = np.ones([row, col])
+	x_data[:, 1:col] = raw_data[:, 0:col-1]
+	y_data = raw_data[:, col-1:col]
+
+	return x_data, y_data, x_data, y_data, x_data, y_data
 
 
 def load_train_data():
@@ -24,30 +30,29 @@ def load_train_data():
     return data
 
 
-def make_model(X, W, b):
-    return tf.add(tf.matmul(X, W), b)
+def make_model(X, W):
+    return tf.matmul(X, tf.transpose(W))
 
 
-def cost_function():
+def cost_function(hypothesis, Y):
 	return tf.reduce_mean(tf.square(hypothesis - Y))
 
 
 def make_optimizer():
-    optimizer_module = tf.train
-    optimizer_name   = 'GradientDescentOptimizer'
-    optimizer_params = {'learning_rate': 0.01}
+    optimizer_module = {{optimizer_module}}
+    optimizer_name   = {{optimizer_name}}
+    optimizer_params = {{optimizer_params}}
     return getattr(optimizer_module, optimizer_name)(**optimizer_params)
 
 
 def init_weights():
-    weight_init_module = tf.random_uniform
-    weight_params      = {'maxval': 1.0, 'shape': [1], 'minval': -1.0}
-    bias_init_module = tf.random_uniform
-    bias_params      = {'maxval': 0.0, 'shape': [1], 'minval': 0.0}
+    weight_init_module = {{init_module}}
+    weight_params      = {{init_params}}
+
+    weight_params['shape'] = [1, len(x_train[0])]
 
     weight = tf.Variable(weight_init_module(**weight_params))
-    bias = tf.Variable(bias_init_module(**bias_params))
-    return weight, bias
+    return weight
 
 
 def save_model():
@@ -58,13 +63,13 @@ def save_model():
 
 x_train, y_train, x_valid, y_valid, x_test, y_test = load_input()
 
-X = tf.placeholder("float")
-Y = tf.placeholder("float")
+X = tf.placeholder(tf.float32)     # X = tf.placeholder(tf.float32, [None, 784])
+Y = tf.placeholder(tf.float32)     # Y = tf.placeholder(tf.float32, [None, 10])
 
-W, b = init_weights()
-hypothesis = make_model(X, W, b)
+W = init_weights()
+hypothesis = make_model(X, W)
 
-cost = cost_function()
+cost = cost_function(hypothesis, Y)
 optimizer = make_optimizer()
 train = optimizer.minimize(cost)
 

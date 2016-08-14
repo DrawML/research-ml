@@ -29,20 +29,20 @@ if __name__ == "__main__":
 	argc = len(sys.argv)
 	if argc < 2:
 		error_handler(NO_ARG_XML)
-	elif argc < 3:
-		error_handler(NO_ARG_DATA)
+	#elif argc < 3:
+	#	error_handler(NO_ARG_DATA)
 
 	xml_file = sys.argv[1]
-	data_file = sys.argv[2]
+	#data_file = sys.argv[2]
 	if os.path.isfile(xml_file) is False:
 		error_handler(NO_FILE_XML)
-	elif os.path.isfile(data_file) is False:
-		error_handler(NO_FILE_DATA)
+	#elif os.path.isfile(data_file) is False:
+	#	error_handler(NO_FILE_DATA)
 
 	xml_tree = et.parse(xml_file)
 	root = xml_tree.getroot()
-	if root.tag != "model":
-		error_handler(FORMAT_ERR, "model")
+	if root.tag != "experiment":
+		error_handler(FORMAT_ERR, "experiment")
 
-	exec("from " + root.find("type").text + " import make_code")
+	exec("from " + root.find("model").find("type").text + " import make_code")
 	make_code(root)
