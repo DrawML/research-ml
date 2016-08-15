@@ -10,78 +10,71 @@
         <dropout_hidden>0.8</dropout_hidden>
         <layer_set>
             <size>5</size>
-            <conv_layer id = "1">
+            <layer id = "1">
+                <type>convolution</type>
                 <activation>
                     <type>relu</type>
-                    <strides>
-                        <vertical>1</vertical>
-                        <horizontal>1</horizontal>
-                    </strides>
+                    <strides_vertical>1</strides_vertical>
+                    <strides_horizontal>1</strides_horizontal>
                     <padding>same</padding>
                 </activation>
                 <pooling>
                     <type>max</type>
-                    <strides>
-                        <vertical>2</vertical>
-                        <horizontal>2</horizontal>
-                    </strides>
+                    <strides_vertical>2</strides_vertical>
+                    <strides_horizontal>2</strides_horizontal>
                     <padding>same</padding>
                 </pooling>
                 <input_x>3</input_x>
                 <input_y>3</input_y>
                 <input_z>1</input_z>
                 <output>32</output>
-            </conv_layer>
-            <conv_layer id = "2">
+            </layer>
+            <layer id = "2">
+                <type>convolution</type>
                 <activation>
                     <type>relu</type>
-                    <strides>
-                        <vertical>1</vertical>
-                        <horizontal>1</horizontal>
-                    </strides>
+                    <strides_vertical>1</strides_vertical>
+                    <strides_horizontal>1</strides_horizontal>
                     <padding>same</padding>
                 </activation>
                 <pooling>
                     <type>max</type>
-                    <strides>
-                        <vertical>2</vertical>
-                        <horizontal>2</horizontal>
-                    </strides>
+                    <strides_vertical>2</strides_vertical>
+                    <strides_horizontal>2</strides_horizontal>
                     <padding>same</padding>
                 </pooling>
                 <input_x>3</input_x>
                 <input_y>3</input_y>
                 <input_z>32</input_z>
                 <output>64</output>
-            </conv_layer>
-            <conv_layer id = "3">
+            </layer>
+            <layer id = "3">
+                <type>convolution</type>
                 <activation>
                     <type>relu</type>
-                    <strides>
-                        <vertical>1</vertical>
-                        <horizontal>1</horizontal>
-                    </strides>
+                    <strides_vertical>1</strides_vertical>
+                    <strides_horizontal>1</strides_horizontal>
                     <padding>same</padding>
                 </activation>
                 <pooling>
                     <type>max</type>
-                    <strides>
-                        <vertical>2</vertical>
-                        <horizontal>2</horizontal>
-                    </strides>
+                    <strides_vertical>2</strides_vertical>
+                    <strides_horizontal>2</strides_horizontal>
                     <padding>same</padding>
                 </pooling>
                 <input_x>3</input_x>
                 <input_y>3</input_y>
                 <input_z>64</input_z>
                 <output>128</output>
-            </conv_layer>
+            </layer>
             <layer id = "4">
+                <type>none</type>
                 <activation>relu</activation>
                 <input>2048</input>
                 <output>625</output>
             </layer>
             <layer id = "5">
+                <type>out</type>
                 <activation>none</activation>
                 <input>625</input>
                 <output>10</output>

@@ -8,16 +8,19 @@
         <layer_set>
             <size>3</size>
             <layer id = "1">
+                <type>none</type>
                 <activation>relu</activation>
                 <input>784</input>
                 <output>256</output>
             </layer>
             <layer id = "2">
+                <type>none</type>
                 <activation>relu</activation>
                 <input>256</input>
                 <output>256</output>
             </layer>
             <layer id = "3">
+                <type>none</type>
                 <activation>relu</activation>
                 <input>256</input>
                 <output>10</output>

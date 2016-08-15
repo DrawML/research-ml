@@ -35,10 +35,34 @@ class code_generator:
 			template_variables["init_module"] = "tf.random_uniform"
 			template_variables["init_params"] = params
 
+		if initializer_type == "random_normal":
+			params = dict()
+			params["minval"] = float(xml_info["initializer_min"])
+			params["maxval"] = float(xml_info["initializer_max"])
+
+			template_variables["init_module"] = "tf.random_uniform"
+			template_variables["init_params"] = params
+
 	@staticmethod
 	def make_activation_function(activ_func_name: str):
+		if activ_func_name == 'none':
+			return 'no_module'
 		if activ_func_name == "relu":
 			return "tf.nn.relu"
+
+	@staticmethod
+	def make_pooling(name: str):
+		if name == 'none':
+			return 'no_module'
+		if name == "max":
+			return "tf.nn.max_pool"
+
+	@staticmethod
+	def bind_padding(name: str):
+		if name == 'same':
+			return "'SAME'"
+		if name == "max":
+			return "'VALID'"
 
 	@staticmethod
 	def make_optimizer(xml_info: dict, template_variables: dict):
