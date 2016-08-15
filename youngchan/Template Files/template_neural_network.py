@@ -29,12 +29,34 @@ def load_train_data():
 	return data
 
 
-def make_model(X, W):
+def make_model(X, W, B):
+	layers = [X];
+	layer_size = {{layer_size}}
+	{% for i in range(layer_size) %}
+
+	layer = tf.add(tf.matmul(layers[i], W[i]), B[i])
+	activ_func = {{layer_{{i}}_activation}}
+	layer =
+	layers.append(layer)
+
+	{ % endfor %}
+
+	activation_functions = {{activation_functions}}
+	for i in range(len(W)-1):
+		layer_temp = tf.add(tf.matmul(layers[i], W[i]), B[i])
+		layer = activation_functions[i](layer_temp)
+		layers.append(layer)
+
+	size = len(W)
+	model = tf.add(tf.matmul(layers[size], W[size-1]), B[size-1])
+
+	""" next 4 lines are for regularization.
+		And They have to change """
 	reg_enable = {{reg_enable}}
 	reg_lambda = {{reg_lambda}}
-	model = tf.matmul(X, tf.transpose(W))
 	if reg_enable is True:
 		model += (reg_lambda / 2) * tf.reduce_mean(tf.reduce_sum(tf.square(W)))
+
 	return model
 
 
@@ -49,21 +71,22 @@ def make_optimizer():
 
 
 def init_weights():
+	W = []
+	B = []
 	weight_init_module = {{init_module}}
 	weight_params = {{init_params}}
-	layer_set_size = {{layer_set_size}}
+	layer_size = {{layer_size}}
+	input_shape = {{input_shape}}
+	output_shape = {{output_shape}}
+	{% for i in range(layer_size) %}
 
-	{% for i in range(layer_set_size) %}
-	weight_input =
-	weight_params['shape'] = [z1, len(x_train[0])]
-	weight = tf.Variable(weight_init_module(**weight_params))
-
+	weight_params['shape'] = [input_shape[{{i}}], output_shape[{{i}}]]
+	W.append(tf.Variable(weight_init_module(**weight_params)))
+	weight_params['shape'] = [output_shape[{{i}}]]
+	B.append(tf.Variable(weight_init_module(**weight_params)))
 	{% endfor %}
 
-	weight_params['shape'] = [1, len(x_train[0])]
-
-	weight = tf.Variable(weight_init_module(**weight_params))
-	return weight
+	return W, B
 
 
 def save_model():
@@ -78,8 +101,8 @@ x_train, y_train, x_valid, y_valid, x_test, y_test = load_input()
 X = tf.placeholder(tf.float32, [None, len(x_train[0])])
 Y = tf.placeholder(tf.float32, [None, len(y_train[0])])
 
-W = init_weights()
-hypothesis = make_model(X, W)
+W, B = init_weights()
+hypothesis = make_model(X, W, B)
 
 cost = cost_function(hypothesis, Y)
 optimizer = make_optimizer()
