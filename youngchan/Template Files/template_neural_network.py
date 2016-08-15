@@ -29,34 +29,36 @@ def load_train_data():
 	return data
 
 
+def make_activation(src: str):
+	src_split = src.split('.')
+	module = None
+	for i in range(len(src_split)):
+		if i == 0:
+			module = globals()[src_split[i]]
+		else:
+			module = getattr(module, src_split[i])
+	return module
+
+
 def make_model(X, W, B):
 	layers = [X];
-	layer_size = {{layer_size}}
-	{% for i in range(layer_size) %}
-
-	layer = tf.add(tf.matmul(layers[i], W[i]), B[i])
-	activ_func = {{layer_{{i}}_activation}}
-	layer =
-	layers.append(layer)
-
-	{ % endfor %}
-
 	activation_functions = {{activation_functions}}
 	for i in range(len(W)-1):
+		activ_func = make_activation(activation_functions[i])
 		layer_temp = tf.add(tf.matmul(layers[i], W[i]), B[i])
-		layer = activation_functions[i](layer_temp)
+		layer = activ_func(layer_temp)
 		layers.append(layer)
 
 	size = len(W)
-	model = tf.add(tf.matmul(layers[size], W[size-1]), B[size-1])
+	model = tf.add(tf.matmul(layers[size-1], W[size-1]), B[size-1])
 
 	""" next 4 lines are for regularization.
-		And They have to change """
+		And They have to change
 	reg_enable = {{reg_enable}}
 	reg_lambda = {{reg_lambda}}
 	if reg_enable is True:
-		model += (reg_lambda / 2) * tf.reduce_mean(tf.reduce_sum(tf.square(W)))
-
+		 model += (reg_lambda / 2) * tf.reduce_mean(tf.reduce_sum(tf.square(W)))
+	"""
 	return model
 
 

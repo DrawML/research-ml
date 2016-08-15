@@ -1,5 +1,5 @@
 import xml.etree.ElementTree as et
-
+import tensorflow as tf
 
 class code_generator:
 	@staticmethod
@@ -32,6 +32,13 @@ class code_generator:
 
 			template_variables["init_module"] = "tf.random_uniform"
 			template_variables["init_params"] = params
+
+	@staticmethod
+	def make_activation_function(activ_func_name: str):
+		if activ_func_name == "relu":
+			return "tf.nn.relu"
+
+
 
 	@staticmethod
 	def make_optimizer(xml_info: dict, template_variables: dict):
@@ -168,10 +175,12 @@ class code_generator:
 		:param xml_info:            xml information dictionary
 		:return:                    void
 		"""
-		key = parent.tag + "_" + node.tag
+
+		key = parent.tag
+		for attr in parent.attrib:
+			key += '_' + parent.attrib[attr]
+		key += "_" + node.tag
 		if parent != node:
-			template_variable[key] = node.text
-		for attr in node.attrib:
-			template_variable[key + "_" + attr] = node.attrib[attr]
+			xml_info[key] = node.text
 		for child in node:
-			code_generator.parse_xml(node, child, template_variable)
+			code_generator.parse_xml(node, child, xml_info)

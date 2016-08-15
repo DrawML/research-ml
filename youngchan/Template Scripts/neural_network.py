@@ -12,17 +12,17 @@ def bind_variables(xml_info: dict, template_variables: dict):
 
 	layer_size = int(xml_info['layer_set_size'])
 	template_variables['layer_size'] = layer_size
-	input_shape  = []
+	input_shape = []
 	output_shape = []
 	activ_functions = []
 	for i in range(layer_size):
-		activation_key  = 'layer_' + str(i+1) + '_activation'
-		code_generator.make_activation_function(activ_functions, xml_info[activation_key])
+		activation_key = 'layer_' + str(i + 1) + '_activation'
+		activ_functions.append(code_generator.make_activation_function(xml_info[activation_key]))
 
-		input_key  = 'layer_' + str(i+1) + '_input'
-		output_key = 'layer_' + str(i+1) + '_output'
-		input_shape.append(xml_info[input_key])
-		output_shape.append(xml_info[output_key])
+		input_key = 'layer_' + str(i + 1) + '_input'
+		output_key = 'layer_' + str(i + 1) + '_output'
+		input_shape.append(int(xml_info[input_key]))
+		output_shape.append(int(xml_info[output_key]))
 	template_variables["activation_functions"] = activ_functions
 	template_variables['input_shape'] = input_shape
 	template_variables['output_shape'] = output_shape
