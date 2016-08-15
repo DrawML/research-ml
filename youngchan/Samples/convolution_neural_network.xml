@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<experiment>
+    <input>
+        <x>28,28</x>
+        <y>10</y>
+    </input>
+    <model>
+        <type>convolution_neural_network</type>
+        <dropout_conv>0.8</dropout_conv>
+        <dropout_hidden>0.8</dropout_hidden>
+        <layer_set>
+            <size>3</size>
+            <conv_layer id = "1">
+                <activation>
+                    <type>relu</type>
+                    <strides>
+                        <vertical>1</vertical>
+                        <horizontal>1</horizontal>
+                    </strides>
+                    <padding>same</padding>
+                </activation>
+                <pooling>
+                    <type>max</type>
+                    <strides>
+                        <vertical>2</vertical>
+                        <horizontal>2</horizontal>
+                    </strides>
+                    <padding>same</padding>
+                </pooling>
+                <input_x>3</input_x>
+                <input_y>3</input_y>
+                <input_z>1</input_z>
+                <output>32</output>
+            </conv_layer>
+            <conv_layer id = "2">
+                <activation>
+                    <type>relu</type>
+                    <strides>
+                        <vertical>1</vertical>
+                        <horizontal>1</horizontal>
+                    </strides>
+                    <padding>same</padding>
+                </activation>
+                <pooling>
+                    <type>max</type>
+                    <strides>
+                        <vertical>2</vertical>
+                        <horizontal>2</horizontal>
+                    </strides>
+                    <padding>same</padding>
+                </pooling>
+                <input_x>3</input_x>
+                <input_y>3</input_y>
+                <input_z>32</input_z>
+                <output>64</output>
+            </conv_layer>
+            <conv_layer id = "3">
+                <activation>
+                    <type>relu</type>
+                    <strides>
+                        <vertical>1</vertical>
+                        <horizontal>1</horizontal>
+                    </strides>
+                    <padding>same</padding>
+                </activation>
+                <pooling>
+                    <type>max</type>
+                    <strides>
+                        <vertical>2</vertical>
+                        <horizontal>2</horizontal>
+                    </strides>
+                    <padding>same</padding>
+                </pooling>
+                <input_x>3</input_x>
+                <input_y>3</input_y>
+                <input_z>64</input_z>
+                <output>128</output>
+            </conv_layer>
+            <layer id = "4">
+                <activation>relu</activation>
+                <input>2048</input>
+                <output>625</output>
+            </layer>
+            <layer id = "5">
+                <activation>none</activation>
+                <input>625</input>
+                <output>10</output>
+            </layer>
+        </layer_set>
+        <initializer>
+            <type>random_uniform</type> <!-- valid type -->
+            <min>-1.0</min>     <!-- float -->
+            <max>1.0</max>    <!-- float -->
+        </initializer>
+        <optimizer>
+            <type>gradient_descent</type>           <!-- valid type -->
+            <learning_rate>0.01</learning_rate>     <!-- float -->
+        </optimizer>
+        <regularization>
+            <enable>true</enable>
+            <lambda>0.0</lambda>
+        </regularization>
+        <training_epoch>1024</training_epoch>     <!-- unsigned -->
+    </model>
+</experiment>
