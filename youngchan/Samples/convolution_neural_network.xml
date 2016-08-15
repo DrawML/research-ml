@@ -9,7 +9,7 @@
         <dropout_conv>0.8</dropout_conv>
         <dropout_hidden>0.8</dropout_hidden>
         <layer_set>
-            <size>3</size>
+            <size>5</size>
             <conv_layer id = "1">
                 <activation>
                     <type>relu</type>
