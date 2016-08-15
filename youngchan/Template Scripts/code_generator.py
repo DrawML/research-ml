@@ -1,6 +1,7 @@
 import xml.etree.ElementTree as et
 import tensorflow as tf
 
+
 class code_generator:
 	@staticmethod
 	def bind_common_variables(xml_info: dict, template_variables: dict):
@@ -18,8 +19,9 @@ class code_generator:
 		"""
 			data processing code...
 		"""
-		# template_variables["x_data"] = xml_info["x_data"]
-		# template_variables["y_data"] = xml_info["y_data"]
+
+	# template_variables["x_data"] = xml_info["x_data"]
+	# template_variables["y_data"] = xml_info["y_data"]
 
 	@staticmethod
 	def make_initializer(xml_info: dict, template_variables: dict):
@@ -37,8 +39,6 @@ class code_generator:
 	def make_activation_function(activ_func_name: str):
 		if activ_func_name == "relu":
 			return "tf.nn.relu"
-
-
 
 	@staticmethod
 	def make_optimizer(xml_info: dict, template_variables: dict):
@@ -149,7 +149,7 @@ class code_generator:
 			template_variables["optimizer_params"] = params
 
 	@staticmethod
-	def parse_xml(parent: et.Element, node: et.Element,
+	def parse_xml(element_id: str, parent: et.Element, node: et.Element,
 	              xml_info: dict):
 		"""
 		Fill template variavle dictionary recursively
@@ -160,27 +160,33 @@ class code_generator:
 				</xval>
 				to
 				template[xval_low] = 10
-		and format of attribute filed is (parenttag_currenttag_attribute)
+		and format of attribute filed is (attribute_parenttag_currenttag)
 			ex) from
-				<input>
-					<xval type="float">
-						...
-					</xval>
-				</input>
+				<conv_layer id = "1">
+	                <activation>
+	                    <type>relu</type>
+	                    <strides>
+	                        <vertical>1</vertical>
 				to
-				template[input_xval_type] = "float"
+				template[1_activation_type] = "relu"
+				template[1_strides_vertical] = "1"
 
+		:param element_id:          element id which is unique value
 		:param parent:              parent node
 		:param node:                current node
 		:param xml_info:            xml information dictionary
 		:return:                    void
 		"""
 
-		key = parent.tag
-		for attr in parent.attrib:
-			key += '_' + parent.attrib[attr]
+		key = ""
+		for attr in node.attrib:
+			element_id = node.attrib[attr]
+		if element_id != "":
+			key += element_id + "_"
+		key += parent.tag
 		key += "_" + node.tag
 		if parent != node:
 			xml_info[key] = node.text
 		for child in node:
-			code_generator.parse_xml(node, child, xml_info)
+			code_generator.parse_xml(element_id, node, child, xml_info)
+		element_id = ""

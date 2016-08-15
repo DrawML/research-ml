@@ -89,7 +89,7 @@ def init_weights():
 	W = []
 	B = []
 	weight_init_module = tf.random_uniform
-	weight_params = {'maxval': 1.0, 'minval': -1.0}
+	weight_params = {'minval': -1.0, 'maxval': 1.0}
 	layer_size = 3
 	input_shape = [784, 256, 256]
 	output_shape = [256, 256, 10]

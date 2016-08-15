@@ -21,7 +21,7 @@ def make_code(root: et.Element):
 		sys.exit(2)
 
 	xml_info = dict()
-	code_generator.parse_xml(root, root, xml_info)
+	code_generator.parse_xml("", root, root, xml_info)
 
 	template_variables = dict()
 	bind_variables(xml_info, template_variables)

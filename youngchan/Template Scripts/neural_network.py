@@ -16,11 +16,11 @@ def bind_variables(xml_info: dict, template_variables: dict):
 	output_shape = []
 	activ_functions = []
 	for i in range(layer_size):
-		activation_key = 'layer_' + str(i + 1) + '_activation'
+		activation_key = str(i + 1) + '_layer_activation'
 		activ_functions.append(code_generator.make_activation_function(xml_info[activation_key]))
 
-		input_key = 'layer_' + str(i + 1) + '_input'
-		output_key = 'layer_' + str(i + 1) + '_output'
+		input_key = str(i + 1) + '_layer_input'
+		output_key = str(i + 1) + '_layer_output'
 		input_shape.append(int(xml_info[input_key]))
 		output_shape.append(int(xml_info[output_key]))
 	template_variables["activation_functions"] = activ_functions
@@ -38,7 +38,7 @@ def make_code(root: et.Element):
 		sys.exit(2)
 
 	xml_info = dict()
-	code_generator.parse_xml(root, root, xml_info)
+	code_generator.parse_xml("", root, root, xml_info)
 
 	template_variables = dict()
 
