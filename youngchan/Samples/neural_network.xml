@@ -7,15 +7,18 @@
         <type>neural_network</type>
         <layer_set>
             <size>3</size>
-            <layer num = "1">
+            <layer id = "1">
+                <activation>relu</activation>
                 <input>784</input>
                 <output>256</output>
             </layer>
-            <layer num = "2">
+            <layer id = "2">
+                <activation>relu</activation>
                 <input>256</input>
                 <output>256</output>
             </layer>
-            <layer num = "3">
+            <layer id = "3">
+                <activation>relu</activation>
                 <input>256</input>
                 <output>10</output>
             </layer>
