@@ -37,10 +37,9 @@ class code_generator:
 
 		if initializer_type == "random_normal":
 			params = dict()
-			params["minval"] = float(xml_info["initializer_min"])
-			params["maxval"] = float(xml_info["initializer_max"])
+			params["stddev"] = float(xml_info["initializer_stddev"])
 
-			template_variables["init_module"] = "tf.random_uniform"
+			template_variables["init_module"] = "tf.random_normal"
 			template_variables["init_params"] = params
 
 	@staticmethod

@@ -81,13 +81,12 @@
             </layer>
         </layer_set>
         <initializer>
-            <type>random_uniform</type> <!-- valid type -->
-            <min>-1.0</min>     <!-- float -->
-            <max>1.0</max>    <!-- float -->
+            <type>random_normal</type> <!-- valid type -->
+            <stddev>0.01</stddev>
         </initializer>
         <optimizer>
-            <type>gradient_descent</type>           <!-- valid type -->
-            <learning_rate>0.01</learning_rate>     <!-- float -->
+            <type>rmsprop</type>           <!-- valid type -->
+            <learning_rate>0.001</learning_rate>     <!-- float -->
         </optimizer>
         <regularization>
             <enable>true</enable>

@@ -52,7 +52,7 @@ def make_module(src: str):
 
 
 def make_model(X, W):
-	prev_layer = X;
+	prev_layer = X
 
 	{% for layer in layers %}
 	{% if layer.type == 'conv' %}
@@ -94,7 +94,7 @@ def make_model(X, W):
 
 
 def cost_function(hypothesis, Y):
-	return tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(hypothesis, Y))
+	return tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(hypothesis, Y))
 
 def make_optimizer():
 	optimizer_module = {{optimizer_module}}
@@ -113,14 +113,12 @@ def init_weights():
 
 	shape = [{{layer.input_x}}, {{layer.input_y}}, {{layer.input_z}}, {{layer.output}}]
 	weight_params['shape'] = shape
-	# weight_params['stddev'] = 0.01
 	W['w{{layer.num}}'] = tf.Variable(weight_init_module(**weight_params))
 	{% endif %}
 	{% if layer.type == 'none' or layer.type == 'out' %}
 
 	shape = [{{layer.input}}, {{layer.output}}]
 	weight_params['shape'] = shape
-	# weight_params['stddev'] = 0.01
 	W['w{{layer.num}}'] = tf.Variable(weight_init_module(**weight_params))
 	{% endif %}
 	{% endfor %}
@@ -136,6 +134,10 @@ def save_model():
 
 
 x_train, y_train, x_valid, y_valid, x_test, y_test = load_input()
+
+x_train = x_train.reshape(-1, x_vertical, x_horizontal, 1)
+x_test  = x_test.reshape(-1, x_vertical, x_horizontal, 1)
+x_valid = x_valid.reshape(-1, x_vertical, x_horizontal, 1)
 
 X = tf.placeholder(tf.float32, [None, x_vertical, x_horizontal, 1])
 Y = tf.placeholder(tf.float32, [None, len(y_train[0])])

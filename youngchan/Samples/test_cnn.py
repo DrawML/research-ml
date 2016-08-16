@@ -20,6 +20,18 @@ trX = trX.reshape(-1, 28, 28, 1)  # 28x28x1 input img
 teX = teX.reshape(-1, 28, 28, 1)  # 28x28x1 input img
 
 
+def load_input():
+	raw_data = np.loadtxt('data.txt', unpack=True, dtype='float32')
+	raw_data = raw_data.T
+	row = len(raw_data)
+	col = len(raw_data[0])
+
+	x_data = np.ones([row, col])
+	x_data[:, 1:col] = raw_data[:, 0:col - 1]
+	y_data = raw_data[:, col - 1:col]
+
+	return x_data, y_data, x_data, y_data, x_data, y_data
+
 
 def load_train_data():
 	data = {X: x_train, Y: y_train}
@@ -44,7 +56,7 @@ def make_module(src: str):
 
 
 def make_model(X, W):
-	prev_layer = X;
+	prev_layer = X
 
 
 	activ_func = tf.nn.relu
@@ -83,20 +95,18 @@ def make_model(X, W):
 	l = pooling(l, ksize=[1, 2, 2, 1],
 	            strides=[1, 2, 2, 1],
 	            padding='SAME')
-
-	l = tf.reshape(l, [-1, W['w4'].get_shape().as_list()[0]])
 	l = tf.nn.dropout(l, p_keep_conv)
 	prev_layer = l
 
 	weight = W['w4']
-	# prev_layer = tf.reshape(prev_layer, [-1, weight.get_shape().as_list()[0]])
+	prev_layer = tf.reshape(prev_layer, [-1, weight.get_shape().as_list()[0]])
 	activ_func = tf.nn.relu
 	l = activ_func(tf.matmul(prev_layer, weight))
 	l = tf.nn.dropout(l, p_keep_hidden)
 	prev_layer = l
 
 	weight = W['w5']
-	# prev_layer = tf.reshape(prev_layer, [-1, weight.get_shape().as_list()[0]])
+	prev_layer = tf.reshape(prev_layer, [-1, weight.get_shape().as_list()[0]])
 	activ_func = no_module
 	l = activ_func(tf.matmul(prev_layer, weight))
 	prev_layer = l
@@ -106,7 +116,7 @@ def make_model(X, W):
 
 
 def cost_function(hypothesis, Y):
-	return tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(hypothesis, Y))
+	return tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(hypothesis, Y))
 
 def make_optimizer():
 	optimizer_module = tf.train
@@ -117,33 +127,28 @@ def make_optimizer():
 
 def init_weights():
 	W = {}
-	weight_init_module = tf.random_uniform
-	weight_params = {'minval': -1.0, 'maxval': 1.0}
-	layers = [{'input_x': 3, 'type': 'conv', 'pooling': 'tf.nn.max_pool', 'activ_func': 'tf.nn.relu', 'input_y': 3, 'pooling_strides_h': 2, 'activ_padding': "'SAME'", 'output': 32, 'num': 1, 'input_z': 1, 'pooling_padding': "'SAME'", 'activ_strides_h': 1, 'pooling_strides_v': 2, 'activ_strides_v': 1}, {'input_x': 3, 'type': 'conv', 'pooling': 'tf.nn.max_pool', 'activ_func': 'tf.nn.relu', 'input_y': 3, 'pooling_strides_h': 2, 'activ_padding': "'SAME'", 'output': 64, 'num': 2, 'input_z': 32, 'pooling_padding': "'SAME'", 'activ_strides_h': 1, 'pooling_strides_v': 2, 'activ_strides_v': 1}, {'input_x': 3, 'type': 'conv', 'pooling': 'tf.nn.max_pool', 'activ_func': 'tf.nn.relu', 'input_y': 3, 'pooling_strides_h': 2, 'activ_padding': "'SAME'", 'output': 128, 'num': 3, 'input_z': 64, 'pooling_padding': "'SAME'", 'activ_strides_h': 1, 'pooling_strides_v': 2, 'activ_strides_v': 1}, {'output': 625, 'type': 'none', 'num': 4, 'input': 2048, 'activ_func': 'tf.nn.relu'}, {'output': 10, 'type': 'out', 'num': 5, 'input': 625, 'activ_func': 'no_module'}]
+	weight_init_module = tf.random_normal
+	weight_params = {'stddev': 0.01}
+	layers = [{'input_y': 3, 'num': 1, 'pooling': 'tf.nn.max_pool', 'pooling_strides_h': 2, 'type': 'conv', 'input_z': 1, 'output': 32, 'pooling_padding': "'SAME'", 'activ_func': 'tf.nn.relu', 'input_x': 3, 'activ_strides_v': 1, 'activ_padding': "'SAME'", 'activ_strides_h': 1, 'pooling_strides_v': 2}, {'input_y': 3, 'num': 2, 'pooling': 'tf.nn.max_pool', 'pooling_strides_h': 2, 'type': 'conv', 'input_z': 32, 'output': 64, 'pooling_padding': "'SAME'", 'activ_func': 'tf.nn.relu', 'input_x': 3, 'activ_strides_v': 1, 'activ_padding': "'SAME'", 'activ_strides_h': 1, 'pooling_strides_v': 2}, {'input_y': 3, 'num': 3, 'pooling': 'tf.nn.max_pool', 'pooling_strides_h': 2, 'type': 'conv', 'input_z': 64, 'output': 128, 'pooling_padding': "'SAME'", 'activ_func': 'tf.nn.relu', 'input_x': 3, 'activ_strides_v': 1, 'activ_padding': "'SAME'", 'activ_strides_h': 1, 'pooling_strides_v': 2}, {'type': 'none', 'activ_func': 'tf.nn.relu', 'num': 4, 'output': 625, 'input': 2048}, {'type': 'out', 'activ_func': 'no_module', 'num': 5, 'output': 10, 'input': 625}]
 
 	shape = [3, 3, 1, 32]
 	weight_params['shape'] = shape
-	# weight_params['stddev'] = 0.01
 	W['w1'] = tf.Variable(weight_init_module(**weight_params))
 
 	shape = [3, 3, 32, 64]
 	weight_params['shape'] = shape
-	# weight_params['stddev'] = 0.01
 	W['w2'] = tf.Variable(weight_init_module(**weight_params))
 
 	shape = [3, 3, 64, 128]
 	weight_params['shape'] = shape
-	# weight_params['stddev'] = 0.01
 	W['w3'] = tf.Variable(weight_init_module(**weight_params))
 
 	shape = [2048, 625]
 	weight_params['shape'] = shape
-	# weight_params['stddev'] = 0.01
 	W['w4'] = tf.Variable(weight_init_module(**weight_params))
 
 	shape = [625, 10]
 	weight_params['shape'] = shape
-	# weight_params['stddev'] = 0.01
 	W['w5'] = tf.Variable(weight_init_module(**weight_params))
 
 	return W
@@ -157,6 +162,8 @@ def save_model():
 
 x_train = trX
 y_train = trY
+
+x_train = x_train.reshape(-1, x_vertical, x_horizontal, 1)
 
 X = tf.placeholder(tf.float32, [None, x_vertical, x_horizontal, 1])
 Y = tf.placeholder(tf.float32, [None, len(y_train[0])])
@@ -193,16 +200,13 @@ with tf.Session() as sess:
                                                          p_keep_conv: 1.0,
                                                          p_keep_hidden: 1.0})))
 """
-0 0.26171875
-1 0.09375
-2 0.09375
-3 0.0625
-4 0.1328125
-5 0.15234375
-6 0.1875
-7 0.12890625
-8 0.125
-
-
-
+0 0.96875
+1 0.984375
+2 0.98828125
+3 0.98828125
+4 0.99609375
+5 0.9921875
+6 0.9765625
+7 0.9921875
+8 0.98828125
 """
