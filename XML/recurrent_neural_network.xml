@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<experiment>
+    <input>
+        <x>28,28</x>
+        <y>10</y>
+    </input>
+    <model>
+        <type>recurrent_neural_network</type>
+        <layer_set>
+            <layer_size>1</layer_size>
+            <rnn_size>28</rnn_size>
+            <time_step_size>28</time_step_size>
+            <batch_size>128</batch_size>
+            <layer id = "1">
+                <type>lstm</type>
+            </layer>
+        </layer_set>
+        <optimizer>
+            <type>rmsprop</type>           <!-- valid type -->
+            <learning_rate>0.001</learning_rate>     <!-- float -->
+        </optimizer>
+        <training_epoch>1024</training_epoch>     <!-- unsigned -->
+    </model>
+</experiment>
