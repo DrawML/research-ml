@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <experiment>
     <input>
-        <x_val>
-            <row>95</row>
-            <col>1</col>
-        </x_val>
-        <y_val>
-            <row>95</row>
-            <col>1</col>
-        </y_val>
+        <shape>[1],[1]</shape>
+        <data>1</data>
     </input>
 
     <model>
+        <data>1</data>
         <type>linear_regression</type>  <!-- valid type -->
         <initializer>
             <type>random_uniform</type> <!-- valid type -->

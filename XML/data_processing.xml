@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <experiment>
     <input>
-        <shape>[784],[10]</shape>
-        <data>1</data>
+        <shape>[1],[1]</shape>              <!-- x_input : 1 / y_input : 1 -->
+        <data>1,2</data>
     </input>
+    <data_processing>
+        <size>3</size>
+        <concat seq="1">
+            <data>1,2</data>
+        </concat>
+        <transpose seq="2">
+            <data>seq1</data>
+        </transpose>
+        <transpose seq="3">
+            <data>seq2</data>
+        </transpose>
+    </data_processing>
     <model>
-        <data>1</data>
-        <type>softmax_regression</type>
+        <data>seq3</data>
+        <type>linear_regression</type>  <!-- valid type -->
         <initializer>
             <type>random_uniform</type> <!-- valid type -->
             <min>-1.0</min>     <!-- float -->
@@ -18,7 +30,7 @@
         </optimizer>
         <regularization>
             <enable>true</enable>
-            <lambda>0.0</lambda>
+            <lambda>0.001</lambda>
         </regularization>
         <training_epoch>1024</training_epoch>     <!-- unsigned -->
     </model>

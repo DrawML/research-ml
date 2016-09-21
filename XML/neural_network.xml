@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <experiment>
     <input>
-
+        <shape>[784], [10]</shape>
+        <data>1</data>
     </input>
     <model>
+        <data>1</data>
         <type>neural_network</type>
         <layer_set>
             <size>3</size>

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <experiment>
     <input>
-        <x>28,28</x>
-        <y>10</y>
+        <shape>[28,28],[10]</shape>
+        <data>1</data>
     </input>
     <model>
+        <data>1</data>
         <type>recurrent_neural_network</type>
         <layer_set>
             <layer_size>1</layer_size>
